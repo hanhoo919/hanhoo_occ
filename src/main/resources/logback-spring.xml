@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <jmxConfigurator/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <!-- 自定义特殊包的日志级别 -->
+    <logger name="com.yonyou.iuap" level="ERROR"/>
+    <logger name="org.apache.zookeeper" level="ERROR"/>
+    <logger name="org.apache.curator" level="ERROR"/>
+    <logger name="com.alibaba.nacos.client.naming" level="WARN"/>
+    <springProfile name="debug">
+        <!-- Hibernate SQL -->
+        <logger name="org.hibernate.SQL" level="DEBUG"/>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+        <!-- MQ -->
+        <logger name="com.yonyou.ocm.common.messaging.AbstractMessageSender" level="DEBUG"/>
+        <logger name="com.yonyou.occ.cmpt.rules.RuleExecuteMessageReceiver" level="DEBUG"/>
+    </springProfile>
+</configuration>

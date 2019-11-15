@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yonyou.occ</groupId>
+		<artifactId>occ-hanhoo</artifactId>
+		<version>2.1.0.BUILD-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.yonyou.occ</groupId>
+	<artifactId>occ-report-hanhoo</artifactId>
+	<packaging>war</packaging>
+	<name>occ-report-hanhoo</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<main.basedir>${basedir}/..</main.basedir>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<occ.version>2.1.0.BUILD-SNAPSHOT</occ.version>
+	</properties>
+
+	<dependencies>
+		<!-- Module dependencies -->
+		<dependency>
+			<groupId>com.yonyou.occ</groupId>
+			<artifactId>occ-prom-web-hanhoo</artifactId>
+			<version>${occ.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yonyou.occ</groupId>
+			<artifactId>occ-b2b-order-web</artifactId>
+			<version>${occ.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yonyou.occ</groupId>
+			<artifactId>occ-fee-api-hanhoo</artifactId>
+			<version>${occ.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yonyou.occ</groupId>
+			<artifactId>occ-web-spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>xalan</artifactId>
+					<groupId>xalan</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.nepxion</groupId>
+			<artifactId>aquarius-lock-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>4.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.afterturn</groupId>
+			<artifactId>easypoi-base</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.afterturn</groupId>
+			<artifactId>easypoi-web</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.afterturn</groupId>
+			<artifactId>easypoi-annotation</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.1.8.RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
+
+	</dependencies>
+
+	<!-- 插件配置 -->
+	<build>
+		<plugins>
+			<!-- compiler插件, 设定JDK版本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<showWarnings>true</showWarnings>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<!--suppress UnresolvedMavenProperty -->
+							<version>${mapstruct.version}</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<!--suppress UnresolvedMavenProperty -->
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<!-- jar打包相关插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<!-- 打包时忽略测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			<!--<plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+				<configuration> <executable>true</executable> </configuration> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes</outputDirectory>
+							<!--<useDefaultDelimiters>false</useDefaultDelimiters> -->
+							<!--<delimiters> -->
+							<!--<delimiter>#</delimiter> -->
+							<!--</delimiters> -->
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<excludes>
+										<exclude>application*.properties</exclude>
+									</excludes>
+								</resource>
+								<resource>
+									<directory>src/main/resources</directory>
+									<!-- 是否替换#xx#表示的maven properties属性值 -->
+									<filtering>true</filtering>
+									<includes>
+										<include>application.properties</include>
+										<include>application-${spring.profiles.active}.properties</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<!-- Profile for applying IDE-specific configuration -->
+			<id>IDE</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.mapstruct</groupId>
+					<artifactId>mapstruct-processor</artifactId>
+					<!--suppress UnresolvedMavenProperty -->
+					<version>${mapstruct.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.projectlombok</groupId>
+					<artifactId>lombok</artifactId>
+					<!--suppress UnresolvedMavenProperty -->
+					<version>${lombok.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<!-- <profile> -->
+		<!-- <id>dev</id> -->
+		<!-- <properties> -->
+		<!-- <spring.profiles.active>dev</spring.profiles.active> -->
+		<!-- </properties> -->
+		<!-- <activation> -->
+		<!-- <activeByDefault>true</activeByDefault> -->
+		<!-- </activation> -->
+		<!-- </profile> -->
+		<!-- <profile> -->
+		<!-- <id>sit</id> -->
+		<!-- <properties> -->
+		<!-- <spring.profiles.active>sit</spring.profiles.active> -->
+		<!-- </properties> -->
+		<!-- </profile> -->
+		<!-- <profile> -->
+		<!-- <id>uat</id> -->
+		<!-- <properties> -->
+		<!-- <spring.profiles.active>uat</spring.profiles.active> -->
+		<!-- </properties> -->
+		<!-- </profile> -->
+		<!-- <profile> -->
+		<!-- <id>prd</id> -->
+		<!-- <properties> -->
+		<!-- <spring.profiles.active>prd</spring.profiles.active> -->
+		<!-- </properties> -->
+		<!-- </profile> -->
+
+
+	</profiles>
+
+</project>
